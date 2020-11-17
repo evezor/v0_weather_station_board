@@ -10,7 +10,8 @@ print("v1.0")
 print("initializing")
 can = CAN(1, CAN.LOOPBACK)
 can.setfilter(0, CAN.LIST16, 0, (123, 124, 125, 126))
-
+can_wakeup = Pin("D6", Pin.OUT)
+can_wakeup.value(0)
 
 i2c = I2C(2, freq=100000)
 
