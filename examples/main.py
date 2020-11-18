@@ -1,7 +1,7 @@
 #Weather Station v1.0p test code
 
 from machine import Pin, I2C
-from pyb import CAN, ADC
+from pyb import CAN, ADC, SPI
 import utime
 
 
@@ -10,10 +10,12 @@ print("v1.0")
 print("initializing")
 can = CAN(1, CAN.LOOPBACK)
 can.setfilter(0, CAN.LIST16, 0, (123, 124, 125, 126))
-can_wakeup = Pin("D6", Pin.OUT)
-can_wakeup.value(0)
+
 
 i2c = I2C(2, freq=100000)
+
+spi = SPI(1, SPI.MASTER, baudrate=600000, polarity=1, phase=0, crc=None)
+
 
 #initialize temp sensor
 print("initializing AHT10 temp sensor")
@@ -25,7 +27,14 @@ i2c.writeto(0x38, b'\x00')
 
 #Setup Pins
 hbt_led = Pin("D13", Pin.OUT)
-func_butt = Pin("D5", Pin.IN, Pin.PULL_UP) 
+func_butt = Pin("D5", Pin.IN, Pin.PULL_UP)
+can_wakeup = Pin("D6", Pin.OUT)
+can_wakeup.value(0) 
+
+barometer_cs = Pin("E6", Pin.OUT)
+barometer_cs.value(1)
+
+
 
 A_BUTTON = Pin("E11", Pin.IN, Pin.PULL_UP)  
 B_BUTTON = Pin("E10", Pin.IN, Pin.PULL_UP) 
@@ -72,17 +81,31 @@ def get():
     mess = can.recv(0)
     print(mess)
         
+
 def read_temp_and_humidity():
     i2c.writeto(0x38, b'\xAC')
     i2c.writeto(0x38, b'\x33')
     i2c.writeto(0x38, b'\x00')
     utime.sleep_ms(75)
     print(i2c.readfrom(0x38, 6))
-      
+
+def spi_read(address, num_read):
+    buf = bytearray(num_read)
+    barometer_cs.value(0)
+    spi.send(address)
+    spi.recv(buf)
+    barometer_cs.value(0)
+    print(buf)
+    
+def get_p():
+    spi_read(0xF7, 1)
+
+    
 while True:
     chk_hbt()
     if not (func_butt.value()):
         print("function button")
+        send()
         utime.sleep_ms(200)
     
     if not (A_BUTTON.value()):
