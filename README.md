@@ -15,3 +15,4 @@ This weather station board features a barometric pressure sensor, an ambient lig
 
 ![sch](https://github.com/evezor/weather_station_board/blob/master/cad_files/WEATHER_STATION.svg)
 
+Evezor® and all associated marks, logos, and designs are registered trademarks and protected by copyright. Unauthorized use or reproduction of these trademarks and copyrighted materials is strictly prohibited
