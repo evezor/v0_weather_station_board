@@ -7,11 +7,11 @@ source: https://github.com/evezor/Evezor-Stamp-STMF405
 
 This weather station board features a barometric pressure sensor, an ambient light sensor and a temerature and humidity sensor. 
 
-![sm]()
+![sm](https://github.com/evezor/weather_station_board/blob/master/pics/sm.PNG)
 
-![front]()
+![front](https://github.com/evezor/weather_station_board/blob/master/pics/front.PNG)
 
-![copper]()
+![copper](https://github.com/evezor/weather_station_board/blob/master/pics/Copper.PNG)
 
-![sch]()
+![sch](https://github.com/evezor/weather_station_board/blob/master/cad_files/WEATHER_STATION.svg)
 
